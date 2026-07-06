@@ -1,0 +1,48 @@
+###
+TRAFFIC ANALYSIS EXERCISE LOG: CASE 02 (LUMMA IN THE ROOM-AH)
+
+ENVIRONMENT PARAMETERS:
+- LAN Segment Range: 10.1.21.0/24
+- Target Malware Family: Lumma Info-Stealer (Steal-2026-0131-02)
+
+EXERCISE TASK SOLUTIONS & FORENSIC EVIDENCE:
+
+1. What is the IP address of the infected Windows client?
+   Answer: 10.1.21.58
+   Forensic Method: Isolated by running the 'http.request' display filter 
+   and mapping anomalous high-frequency outbound API execution sequences.
+
+2. What is the MAC address of the infected Windows client?
+   Answer: 00:21:5d:c8:0e:f2
+   Forensic Method: Tracked via the Layer-2 Ethernet II hardware source field.
+
+3. What is the host name of the infected Windows client?
+   Answer: DESKTOP-ES9F3ML
+   Forensic Method: Extracted by applying the display filter 'nbns' and 
+   inspecting the NetBIOS Name Service local registration packet data.
+
+4. What is the user account name from the infected Windows client?
+   Answer: gwyatt
+   Forensic Method: Isolated by applying the filter 'kerberos.CNameString' 
+   and expanding the ticket structure: Kerberos -> as-req -> req-body -> cname.
+
+5. What is the full name of the user from the user account?
+   Answer: Gabriel Wyatt
+   Forensic Method: Resolved via Active Directory central directory lookup 
+   and cross-referencing unencrypted endpoint user environmental profiles.
+
+6. Identified Threat Activity & C2 Architecture:
+   - Command & Control Domain: whitepepper.su (IP Infrastructure: 153.92.1.49)
+   - C2 Web Server Engine Banner: nginx/1.29.1
+   - Malicious URI Path: GET & POST requests targeting /api/set_agent
+   - Evasion Strategy: Hardcoded legitimate Google Chrome User-Agent string 
+     (Chrome/144.0.0.0) inside binary code to deceive border signature rules.
+   - Reconstructed TCP Payload: Inbound traffic delivered a custom JavaScript 
+     profiler querying device dimensions (hardwareConcurrency:12, GPU models), 
+     followed by immediate outbound application/x-www-form-urlencoded data exfiltration.
+
+###
+Remediation Playbook: Configured boundary firewall egress drops for the 
+malicious Top-Level Domain (.su), executed absolute Active Directory/OAuth 
+session token invalidations for account gwyatt to neutralize stolen cookies, 
+and deployed EDR volatile memory scrubbing to clear injected process points.
