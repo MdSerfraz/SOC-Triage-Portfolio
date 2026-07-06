@@ -1,0 +1,47 @@
+###
+TRAFFIC ANALYSIS EXERCISE LOG: CASE 03 (IT'S A TRAP!)
+
+
+ENVIRONMENT PARAMETERS:
+- LAN Segment Range: 10.6.13.0/24
+- Active Directory Domain: massfriction.com
+- Domain Controller Infrastructure: 10.6.13.3 (WIN-DQL4WFWJXQ4)
+
+EXERCISE TASK SOLUTIONS & FORENSIC EVIDENCE:
+
+1. What is the IP address of the infected Windows client?
+   Answer: 10.6.13.133
+   Forensic Method: Isolated by running the 'http.request' display filter 
+   and mapping anomalous high-frequency outbound API execution sequences.
+
+2. What is the MAC address of the infected Windows client?
+   Answer: 24:77:03:ac:97:df
+   Forensic Method: Tracked via the Layer-2 Ethernet II hardware source field.
+
+3. What is the host name of the infected Windows client?
+   Answer: DESKTOP-5AVE44C
+   Forensic Method: Extracted by applying the display filter 'nbns' and 
+   inspecting the NetBIOS Name Service local registration packet data.
+
+4. What is the user account name from the infected Windows client?
+   Answer: rgaines
+   Forensic Method: Isolated by applying the filter 'kerberos.CNameString' 
+   and expanding the ticket structure: Kerberos -> as-req -> req-body -> cname.
+
+5. What is the full name of the user from the user account?
+   Answer: Ronald Gaines
+   Forensic Method: Resolved via Active Directory central directory lookup 
+   and cross-referencing unencrypted endpoint user environmental profiles.
+
+6. Identified Threat Activity & C2 Architecture:
+   - Command & Control Domain: windows-msgas.com (IP Infrastructure: 104.21.16.1)
+   - Transport Layer Destination Port: 80 (Operating over unencrypted HTTP protocol strings)
+   - Malicious URI Path: Continuous high-frequency outbound HTTP POST data loops
+   - Masquerading Strategy: Registered domain string specifically configured to imitate 
+     native Windows Messaging support vectors to subvert standard gateway firewall logs.
+   - Threat Classification: Interlock Ransomware Group backdoor/Trojan infrastructure exploit.
+
+###
+Remediation Playbook: Deployed boundary gateway drop rules for domain 
+windows-msgas.com, enforced Active Directory account freeze for rgaines, 
+and logically quarantined host DESKTOP-5AVE44C via EDR management.
