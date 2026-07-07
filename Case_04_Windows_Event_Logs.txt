@@ -1,0 +1,31 @@
+###
+HOST-LEVEL FORENSIC TRIAGE LOG: CASE 04 (WINDOWS SECURITY AUDITING)
+
+
+CORE MATRIX: CRITICAL WINDOWS EVENT IDENTIFIERS
+
+1. Event ID: 4624
+   Classification: Successful Account Logon
+   Analysis Metric: Monitor 'Logon Type' properties to classify access vectors.
+   - Logon Type 2  : Local Interactive Authentication (Physical Keyboard entry).
+   - Logon Type 3  : Network-based Authentication (Shared resource access / Lateral progression).
+   - Logon Type 10 : Remote Desktop Protocol (RDP) session initiation.
+
+2. Event ID: 4625
+   Classification: Failed Account Authentication
+   Analysis Metric: High-frequency velocity flags indicate active Brute-Force/Dictionary attacks.
+
+3. Event ID: 4720
+   Classification: Security-Enabled User Account Created
+   Analysis Metric: Indicates potential threat actor backdoor deployment for local persistence.
+
+4. Event ID: 7045 (System Log)
+   Classification: New Windows Background Service Installation
+   Analysis Metric: Tracks persistence creation. Flags unauthorized execution paths streaming 
+   out of temporary local user space directories (e.g., AppData / Temp).
+
+###
+Remediation Control Baseline: Automated detection logic maps high-frequency 
+EID 4625 triggers to dynamically trigger local host block actions, while 
+unauthorized EID 4720 and 7045 instances mandate immediate EDR host isolation.
+
