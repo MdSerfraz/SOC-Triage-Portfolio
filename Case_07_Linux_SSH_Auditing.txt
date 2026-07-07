@@ -1,0 +1,30 @@
+###
+LINUX-LEVEL FORENSIC TRIAGE LOG: CASE 07 (SSH & AUTHENTICATION AUDITING)
+
+
+CORE MATRIX: CRITICAL LINUX SYSTEM AUTHENTICATION LOG PATAHWAYS
+
+1. Log Source Target: /var/log/auth.log (Debian/Ubuntu) or /var/log/secure (RHEL/CentOS)
+   Analysis Metric: Monitor inbound Secure Shell (SSH) connection states to identify 
+   unauthorized interactive shell entry points and brute-force velocity.
+
+2. Forensic Signature: "Failed password for invalid user"
+   Triage Interpretation: Indicates an external automated dictionary attack targeting 
+   non-existent local account configurations. High velocity triggers require immediate 
+   perimeter IP blocking.
+
+3. Forensic Signature: "Accepted password for root"
+   Triage Interpretation: Critical Priority Alert. Confirms a successful remote authentication 
+   into the highest privileged local account. Mandates instant session handle termination.
+
+4. Forensic Signature: "sudo: PWD=... ; USER=root ; COMMAND=..."
+   Triage Interpretation: Tracks local privilege escalation. Logs exactly which compromised 
+   low-privilege local service account executed an administrative binary override tool.
+
+###
+Remediation Control Baseline: Positive identification of unauthorized 
+"Accepted password for root" sequences triggers an immediate remote SSH 
+session kill thread, forcing a complete SSH key-pair revocation lifecycle.
+
+
+
