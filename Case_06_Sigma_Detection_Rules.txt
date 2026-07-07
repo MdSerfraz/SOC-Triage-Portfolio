@@ -1,0 +1,50 @@
+###
+HOST-LEVEL FORENSIC TRIAGE LOG: CASE 06 (SIGMA DETECTION ENGINEERING)
+
+
+AUTOMATED ALERITING BASELINE: DETECTING MALICIOUS POWERSHELL EXECUTION
+
+The configuration block below represents a production-grade, vendor-neutral 
+Sigma detection rule mapped directly to harvest Sysmon Event ID 1 telemetry. 
+It automates the detection of threat actors utilizing hidden execution flags 
+to drop payloads inside the operating system.
+
+--- SIGMA RULE ARCHITECTURE ---
+
+title: Suspicious PowerShell Execution Flags Detected
+id: e4624b11-7045-4fe4-bcde-6cbac56f6034
+status: experimental
+description: Detects PowerShell spawning with hidden window parameters 
+             and bypassed execution policies, a tactic used to deliver RATs.
+author: Md Serfraz (SOC Triage Portfolio)
+date: 2026/07/07
+logsource:
+    product: windows
+    service: sysmon
+
+detection:
+    selection:
+        EventID: 1
+        Image|endswith: '\powershell.exe'
+    keywords:
+        CommandLine|contains:
+            - '-ExecutionPolicy Bypass'
+            - '-ep bypass'
+            - '-WindowStyle Hidden'
+            - '-w hidden'
+            - '-nop'
+            - '-NoProfile'
+    condition: selection and keywords
+
+falsepositives:
+    - Authorized administrative deployment scripts executing from restricted 
+      domain pathways.
+
+level: high
+
+###
+Remediation Control Baseline: Positive matches on this automated rule 
+immediately generate a high-severity alert on the SIEM dashboard, forcing 
+the orchestration layer to pull the parent process tree for containment.
+
+
