@@ -1,0 +1,31 @@
+###
+LINUX-LEVEL FORENSIC TRIAGE LOG: CASE 08 (WEB SERVER & WEB SHELL HUNTING)
+
+
+CORE MATRIX: IDENTIFYING WEB SERVER ACCESS LOG ANOMALIES
+
+1. Log Source Target: /var/log/apache2/access.log or /var/log/nginx/access.log
+   Analysis Metric: Monitor anomalous execution states inside non-executable directories.
+
+2. Forensic Indicator: Outbound HTTP POST requests targeting localized upload directories.
+   - Example Vector: High-frequency POST sequences directed to /wp-content/uploads/ or /assets/.
+   - Triage Interpretation: Indicates a threat actor actively uploading or communicating 
+     with a persistent server script file.
+
+3. Forensic Indicator: Explicit system command parameters inside URL request strings.
+   - Example Vector: Requests matching syntax logs such as 'GET /uploads/backdoor.php?cmd=id' 
+     or 'cmd=whoami'.
+   - Triage Interpretation: Validates remote code execution (RCE) via an active web shell.
+
+4. Forensic Indicator: Execution context running under the 'www-data' or 'apache' account.
+   - Example Vector: Auditing local process trees where low-privilege web daemon processes 
+     attempt to spawn command shells (e.g., www-data executing /bin/bash).
+   - Triage Interpretation: Confirms the underlying web server framework has been subverted.
+
+###
+Remediation Control Baseline: Discovery of active web shell signatures mandates 
+the immediate deletion of the malicious script file from the local web root, 
+the forceful termination of the associated web daemon process threads, and a 
+complete configuration audit of file upload validation controls.
+
+
