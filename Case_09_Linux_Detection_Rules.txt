@@ -1,0 +1,52 @@
+###
+LINUX-LEVEL FORENSIC TRIAGE LOG: CASE 09 (LINUX SIGMA DETECTION ENGINEERING)
+
+
+AUTOMATED ALERTING BASELINE: DETECTING WEB DAEMON SHELL SPAWNING
+
+The configuration block below represents a production-grade, vendor-neutral 
+Sigma detection rule mapped directly to harvest Linux native auditd/syslog 
+telemetry. It automates the detection of low-privilege web server service 
+accounts (like www-data or apache) attempting to spawn interactive system 
+shells, a behavior indicative of an active web shell compromise.
+
+--- SIGMA RULE ARCHITECTURE ---
+
+title: Interactive Shell Spawned by Web Server Daemon Account
+id: f7045b11-4625-4fe4-bcde-6cbac56f6034
+status: experimental
+description: Detects low-privilege web server users (www-data, apache, nginx) 
+             spawning system shells like /bin/bash or /bin/sh, validating 
+             active post-exploitation or web shell interaction.
+author: Md Serfraz (SOC Triage Portfolio)
+date: 2026/07/07
+logsource:
+    product: linux
+    service: auth
+
+detection:
+    selection:
+        User:
+            - 'www-data'
+            - 'apache'
+            - 'nginx'
+    keywords:
+        CommandLine|contains:
+            - '/bin/bash'
+            - '/bin/sh'
+            - '/bin/dash'
+            - 'whoami'
+            - 'id'
+    condition: selection and keywords
+
+falsepositives:
+    - Authorized automated local software updating scripts or administrative 
+      backup cron jobs executing under explicit server user tokens.
+
+level: critical
+
+###
+Remediation Control Baseline: Positive matching on this automated rule 
+immediately triggers a critical-severity response alert on the SIEM dashboard, 
+prompting the orchestration platform to forcefully kill the web daemon PID.
+
