@@ -38,7 +38,21 @@ This repository hosts a verified collection of network forensic investigation lo
 - Log Resource: Case_06_Sigma_Detection_Rules.txt
 - Analysis Summary: Engineered a vendor-neutral, production-grade Sigma detection rule configured to track malicious shell actions inside the enterprise. The rule logic automates the log parsing engines across Sysmon Event ID 1 datasets to intercept PowerShell spawning strings executing with hidden window parameters, stripped profiles, and bypassed local execution policy constraints.
 
+### Domain 3: Linux Architecture and Cloud Environment Security
+
+### Case 07: Linux SSH and Authentication Auditing
+- Log Resource: Case_07_Linux_SSH_Auditing.txt
+- Analysis Summary: Structured an auditing baseline targeting native Linux authentication logs (/var/log/auth.log) to track remote intrusion vectors. Isolated signature tracking telemetry for detecting brute-force password spraying campaigns, unauthorized privileged remote root logons, and localized administrative shell escalation sequences via sudo override executions.
+
+### Case 08: Web Server Logs & Web Shell Hunting
+- Log Resource: Case_08_Linux_Web_Shell_Hunting.txt
+- Analysis Summary: Outlined an incident response framework for detecting persistent web application backdoors inside Apache and Nginx access logs. Configured tracking playbooks for identifying anomalous HTTP POST behaviors inside non-executable upload directories, tracing explicit remote command execution (RCE) URL arguments, and tracking process trees running under server daemon accounts (www-data).
+
+### Case 09: Linux Syslog Signature Engineering
+- Log Resource: Case_09_Linux_Detection_Rules.txt
+- Analysis Summary: Designed an automated, vendor-neutral Linux Sigma rule targeting auditd/syslog engines. The alerting logic systematically intercepts low-privilege web daemon service accounts (www-data, apache, nginx) attempting to spawn interactive command shells (/bin/bash, /bin/sh), providing instantaneous alerting and containment options for active web server compromises.
+
 ## Core Technical Competencies
-- Telemetry Analysis: Deep packet parsing, protocol tree auditing, stream carving, and custom display filter building within Wireshark.
-- Host-Level Inspection: Windows Security log auditing, Sysmon telemetry monitoring, process tree mapping, and registry persistence hunting.
-- SIEM & Detection Engineering: Creating vendor-neutral signature criteria, mapping indicator attributes, and constructing technical remediation playbooks.
+- Traffic Forensic Analysis: Deep packet parsing, protocol hierarchy auditing, stream reconstruction, and display filter tuning inside Wireshark.
+- Host-Level Inspection: Windows Security log auditing, Sysmon telemetry monitoring, Linux auth.log parsing, process tree mapping, and registry persistence hunting.
+- SIEM & Detection Engineering: Creating vendor-neutral Sigma signatures, tracking indicator attributes, and constructing technical remediation playbooks.
