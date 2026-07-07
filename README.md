@@ -1,28 +1,44 @@
-# SOC Triage Portfolio
+# SOC Triage and Detection Engineering Portfolio
 
-This repository hosts verified network forensic investigation logs and triage reports compiled from live packet captures (PCAPs). Each artifact outlines explicit indicator signatures, transport layer tracking, and containment workflows applied during the response lifecycle.
+This repository hosts a verified collection of network forensic investigation logs, host-level security audits, and automated detection rule baselines compiled from live incident captures. Each artifact outlines explicit indicator signatures, transport layer tracking, kernel process auditing parameters, and mitigation playbooks applied across the enterprise defense lifecycle.
 
-## Forensic Case Index
+## Investigation and Detection Index
+
+### Domain 1: Deep Packet Inspection and Network Forensics
 
 ### Case 01: NetSupport RAT System Compromise
-- Affected Endpoint: 10.2.28.88
-- C2 Destination: 45.131.214.85 (Port 443)
-- Summary: Detected unauthorized persistence routines abusing the native Windows Background Intelligent Transfer Service (User-Agent: Microsoft BITS/7.8) to retrieve binary blocks under a masqueraded update path. Application stream tracking exposed continuous automated HTTP POST beacons targeting /fakeurl.htm.
-- Remediation: Executed perimeter gateway null-routing against target external infrastructure, enforced logical network VLAN partitioning, and triggered remote process termination hooks via host execution controllers.
+- Log Resource: Case_01_NetSupport_RAT.txt
+- Affected Endpoint: 10.2.28.88 (DESKTOP-TEYQ2NR) | User: brolf
+- Analysis Summary: Triaged a host compromise where the threat actor hijacked the native Windows Background Intelligent Transfer Service (User-Agent: Microsoft BITS/7.8) to retrieve malicious binary blocks. Session reconstruction isolated automated outbound HTTP POST beaconing targeting /fakeurl.htm on external C2 infrastructure 45.131.214.85.
+- Mitigation Playbook: Executed perimeter gateway egress blocks, initiated logical network VLAN partitioning, and deployed remote host process termination workflows.
 
 ### Case 02: Lumma Info-Stealer Execution Trace
-- Affected Endpoint: 10.1.21.58 (DESKTOP-ES9F3ML)
-- C2 Destination: whitepepper.su (nginx/1.29.1)
-- Summary: Triaged a validated credential-harvester framework utilizing emulated Google Chrome headers to obscure malicious traffic layers. TCP session tracking isolated an inbound JavaScript host profiler querying system dimensions, followed by encrypted form-urlencoded data exfiltration via POST commands to /api/set_agent. User identifier gwyatt was isolated through Kerberos authentication auditing.
-- Remediation: Configured perimeter domain drop constraints for the malicious Top-Level Domain infrastructure, executed centralized directory token invalidations to force credential resets, and initiated volatile host memory cleanup.
+- Log Resource: Case_02_Lumma_stealer.txt
+- Affected Endpoint: 10.1.21.58 (DESKTOP-ES9F3ML) | User: gwyatt
+- Analysis Summary: Isolated an active credential harvester utilizing an emulated Google Chrome User-Agent header string to bypass perimeter boundary filters. Reconstructed TCP application handshakes to uncover an inbound JavaScript host profiler querying machine hardware concurrency configurations and browser directories, followed by immediate encrypted form-urlencoded data exfiltration to whitepepper.su.
+- Mitigation Playbook: Configured boundary domain drops for the malicious Top-Level Domain (.su), implemented centralized directory token invalidations to force global session resets, and cleared local application data cache arrays.
 
 ### Case 03: Interlock Ransomware Backdoor Triage
-- Affected Endpoint: 10.6.13.133 (DESKTOP-5AVE44C)
-- C2 Destination: windows-msgas.com (Port 80)
-- Summary: Tracked anomalous outbound web sequences directed at a malicious domain registered to look like legitimate native messaging utilities. Reconstructed directory validation traffic over the local segment to extract the explicit compromised employee account username rgaines from unencrypted Kerberos CName tokens.
-- Remediation: Deployed strict perimeter boundary egress drop blocks, enacted account freeze routines within core Active Directory structures, and executed host segmentation rules to safeguard adjacent subnet hosts.
+- Log Resource: Case_03_Interlock_Ransomware.txt
+- Affected Endpoint: 10.6.13.133 (DESKTOP-5AVE44C) | User: rgaines
+- Analysis Summary: Tracked automated HTTP POST communication targeting a spoofed external domain (windows-msgas.com) registered to replicate standard Windows utilities. Parsed unencrypted Kerberos directory authentication streams (kerberos.CNameString) directly over the local network layer to isolate the explicit compromised employee account identity.
+- Mitigation Playbook: Enforced perimeter network drop rules, implemented immediate user profile locks within core Active Directory structures, and executed host segmentation parameters.
 
-## Core Defensive Competencies
-- Traffic Forensic Analysis: Packet parsing, protocol tree auditing, application layer stream carving, and custom display filtering inside Wireshark.
-- Lifecycle Incident Response: Remote process orchestration, host network containment, and identity access token invalidation playbooks.
-- Infrastructure Hardening: Threat telemetry hunting, endpoint registry cleanup, and security log parsing.
+### Domain 2: Host Forensics and Detection Engineering
+
+### Case 04: Windows Security Auditing Framework
+- Log Resource: Case_04_Windows_Event_Logs.txt
+- Analysis Summary: Established a core matrix for tracking critical Windows Security and System Event Identifiers across the corporate domain structure. Documented explicit telemetry analysis markers for mapping Successful Logons (Event ID 4624 - Logon Types 2, 3, and 10), Brute-Force velocity indicators (Event ID 4625), Backdoor Account Creation anomalies (Event ID 4720), and malicious Registry Persistence hooks via system service creation (Event ID 7045).
+
+### Case 05: Advanced System Monitor (Sysmon) Tracking
+- Log Resource: Case_05_Sysmon_Tracking.txt
+- Analysis Summary: Structured a host-level hunting baseline focused on the analysis of deep process manipulation and kernel actions. Isolated evaluation procedures targeting Process Creation telemetry (Event ID 1 for command-line string arguments), Network Connection Tracking (Event ID 3 for non-browser binaries establishing socket states), Image Loading manipulation (Event ID 7 for DLL sideloading detection), and volatile File Write operations (Event ID 11 inside temporary pathways).
+
+### Case 06: Sigma Rule Signature Automation
+- Log Resource: Case_06_Sigma_Detection_Rules.txt
+- Analysis Summary: Engineered a vendor-neutral, production-grade Sigma detection rule configured to track malicious shell actions inside the enterprise. The rule logic automates the log parsing engines across Sysmon Event ID 1 datasets to intercept PowerShell spawning strings executing with hidden window parameters, stripped profiles, and bypassed local execution policy constraints.
+
+## Core Technical Competencies
+- Telemetry Analysis: Deep packet parsing, protocol tree auditing, stream carving, and custom display filter building within Wireshark.
+- Host-Level Inspection: Windows Security log auditing, Sysmon telemetry monitoring, process tree mapping, and registry persistence hunting.
+- SIEM & Detection Engineering: Creating vendor-neutral signature criteria, mapping indicator attributes, and constructing technical remediation playbooks.
