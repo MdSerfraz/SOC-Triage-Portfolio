@@ -1,0 +1,33 @@
+###
+HOST-LEVEL FORENSIC TRIAGE LOG: CASE 05 (ADVANCED SYSMON TRACKING)
+
+
+CORE MATRIX: ADVANCED SYSMON EVENT IDENTIFIERS
+
+1. Event ID: 1
+   Classification: Process Creation
+   Analysis Metric: Inspect full Command Line strings and Parent Process trees.
+   - Detects hidden execution flags: -ep bypass, -w hidden, -nop (PowerShell abuse).
+   - Tracks rogue binary spawning patterns (e.g., explorer.exe spawning cmd.exe).
+
+2. Event ID: 3
+   Classification: Network Connection Initiated
+   Analysis Metric: Identifies local system processes making outbound socket calls.
+   - Flags anomalies like native administrative utilities (notepad.exe, calc.exe) 
+     establishing TCP connections to unverified external IP addresses.
+
+3. Event ID: 7
+   Classification: Image Loaded (DLL Monitoring)
+   Analysis Metric: Monitors dynamic link library loading inside volatile memory.
+   - Detects malicious DLL sideloading and injection attempts into trusted space.
+
+4. Event ID: 11
+   Classification: File Create Operations
+   Analysis Metric: Captures precise timestamps and paths of new disk write actions.
+   - Hardened monitoring focuses on temporary runtime pathways: C:\Users\Public\,
+     \AppData\Local\Temp\, and C:\Windows\Temp\.
+
+###
+Remediation Control Baseline: Sysmon Event ID 1 anomalies trigger immediate 
+process parent validation checks, while positive Event ID 3 matches on non-browser 
+binaries activate endpoint quarantine procedures inside the central EDR console.
